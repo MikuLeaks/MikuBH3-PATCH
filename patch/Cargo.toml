@@ -1,0 +1,23 @@
+[package]
+name = "bh3-patch"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "bh3_patch"
+crate-type = ["cdylib"]
+
+[dependencies]
+windows = { version = "0.54.0", features = [
+	"Win32_Foundation",
+	"Win32_System_SystemServices",
+	"Win32_System_LibraryLoader",
+	"Win32_System_Console",
+	"Win32_System_Threading",
+	"Win32_System_ProcessStatus",
+	"Win32_System_Memory",
+] }
+anyhow = "1.0.81"
+ilhook = "2.1.0"
+patternscan = "1.2.0"
+paste = "1.0.14"

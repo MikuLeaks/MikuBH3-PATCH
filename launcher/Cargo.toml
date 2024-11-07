@@ -1,0 +1,7 @@
+[package]
+name = "bh3-launcher"
+edition = "2021"
+version.workspace = true
+
+[dependencies]
+windows.workspace = true
