@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: x86_64-pc-windows-msvc
+
+      - name: Build patch
+        run: cargo +nightly build --release --target x86_64-pc-windows-msvc
+
+      - name: Create ZIP file
+        run: |
+          mkdir release
+          cp target/x86_64-pc-windows-msvc/release/bh3-launcher.exe release/
+          cp target/x86_64-pc-windows-msvc/release/bh3_patch.dll release/
+          powershell Compress-Archive -Path release/* -DestinationPath BH3-Patch-Win64.zip
+
+      - name: Upload ZIP file
+        uses: actions/upload-artifact@v3
+        with:
+          name: BH3-Patch-Win64
+          path: BH3-Patch-Win64.zip
+
+  release:
+    needs: build
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+
+    steps:
+      - name: Download ZIP file
+        uses: actions/download-artifact@v3
+        with:
+          name: BH3-Patch-Win64
+          path: .
+
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: BH3-Patch-Win64.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false

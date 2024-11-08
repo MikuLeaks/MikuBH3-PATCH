@@ -11,17 +11,22 @@
 ### Option 2: Build from Source
 
 1. Ensure you have [Rust installed](https://www.rust-lang.org/tools/install).
-2. Clone the repository:
+2. After `rustup` is installed, then set up nightly Rust:
+   ```sh
+   rustup install nightly
+   rustup default nightly
+   ```
+3. Clone the repository:
 
    ```bash
    git clone https://github.com/MikuLeaks/MikuBH3-Patch.git
    cd MikuBH3-Patch
    ```
 
-3. Build the project:
-
+4. Build the project:
    ```bash
    cargo build --release
    ```
 
-4. Copy `bh3-launcher.exe` and `bh3_patch.dll` from `target/release` folder into the game folder.
+5. Copy `bh3-launcher.exe` and `bh3_patch.dll` from `target/release` folder into the game folder.
+6. Run `bh3-launcher.exe` as Administrator **Important!**
